@@ -5,7 +5,7 @@ import time  # Importing time for time-related operations
 import os  # Importing os for system operations
 import config  # Importing configuration file (presumably containing API keys)
 import warnings  # Importing warnings to suppress unwanted warnings
-import symbols_list  # Importing symbols_list which presumably contains a list of symbols to trade
+import symbolsList  # Importing symbols_list which presumably contains a list of symbols to trade
 
 # Suppress warnings
 warnings.filterwarnings("ignore")
@@ -88,7 +88,7 @@ def ana(symbol):
     time.sleep(2)  # Pause execution for 2 seconds
 
 if __name__ == "__main__":
-    symbols = symbols_list.symbols  # Getting symbols to trade
+    symbols = symbolsList.symbols  # Getting symbols to trade
     while True:  # Infinite loop for continuous trading
         for symbol in symbols:  # Iterating through symbols
             ana(symbol)  # Calling main trading function for each symbol
