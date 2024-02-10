@@ -20,7 +20,7 @@ def get_price(symbol):
 # Function to check RSI (Relative Strength Index) for a specific symbol.
 def rsi_check(symbol):
     try:
-        url = f"https://api.binance.com/api/v3/klines?symbol={symbol}&interval=15m&limit=100"
+        url = f"https://api.binance.com/api/v3/klines?symbol={symbol}&interval=1m&limit=100"
         response = requests.get(url)  # Fetches data from the specified URL.
         response.raise_for_status()  # Raises an exception in case of any HTTP error.
         data = response.json()  # Converts the response to JSON format.
@@ -61,7 +61,7 @@ def main(symbol):
                 print(f"- Wallet: {wallet_amount:<9.3f} - Bought {symbol}   ")  # Prints buy info.
                 while True:  # Initiates an infinite loop.
                     current_price = get_price(symbol)  # Gets the current price.
-                    print(f"{symbol} Purchase Price: {start_price:.3f} - Current Price: {current_price:.3f} - Stop Price: {(start_price * stop_loss_rate):.3f} - Profit Price: {(start_price * profit_rate):.3f}")  # Prints price info.
+                    print(f"{symbol} Purchase Price: {start_price:.4f} - Current Price: {current_price:.4f} - Stop Price: {(start_price * stop_loss_rate):.4f} - Profit Price: {(start_price * profit_rate):.4f}")  # Prints price info.
                     if current_price > start_price * profit_rate:  # Condition for taking profit.
                         earned_amount = bought_amount * current_price  # Calculates the amount earned.
                         commission_amount = earned_amount * commission_rate  # Calculates commission amount.
@@ -70,7 +70,7 @@ def main(symbol):
                         total_profit += profit  # Updates total profit.
                         remaining_amount = wallet_amount + total_profit  # Calculates remaining amount.
                         with open("test_log.txt", "a") as file:  # Writes transaction info to a log file.
-                            line = f"- Wallet: {remaining_amount:<9.3f} - Purchase Price for {symbol:<6}: {start_price:<9.3f} - Amount Bought: {bought_amount:<9.4f} - Current Price: {current_price:<9.3f} - Total Profit: {total_profit:<9.3f} - Profit: {profit:<9.3f} - Spent Amount: {spent_amount:.3f} - Commission: {commission_amount:.3f}\n"  # Creates the line to be written.
+                            line = f"- Wallet: {remaining_amount:<9.3f} - Purchase Price for {symbol:<6}: {start_price:<9.4f} - Amount Bought: {bought_amount:<9.4f} - Current Price: {current_price:<9.4f} - Total Profit: {total_profit:<9.3f} - Profit: {profit:<9.4f} - Spent Amount: {spent_amount:.4f} - Commission: {commission_amount:.4f}\n"  # Creates the line to be written.
                             print(line, end="")  # Prints the line.
                             file.write(line)  # Writes the line to the log file.
                         break  # Exits the loop.

@@ -11,8 +11,8 @@ binance_api_url = "https://api.binance.com/api/v3"
 symbols = symbolsList.symbols
 # Lower threshold for RSI
 rsi_lower_threshold = 30
-# Time interval for candlestick data (e.g., 1m, 3m, 5m, 15m, 30m, 45m, 1h, 2h, 3h, 4h)
-time_interval = "5m"
+# Time interval for candlestick data (e.g., 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h)
+time_interval = "1h"
 
 # Call the API to get candlestick data for a specific symbol
 def get_candlestick_data(symbol, interval, limit):
@@ -44,7 +44,10 @@ def main():
     while True:
         for symbol in symbols:
             check_rsi(symbol)
-        time.sleep(1)  # Wait for one second after each loop
+        for remaining_time in range(10, 0, -1):
+            print(f"Remaining time: {remaining_time} seconds")
+            time.sleep(1)
+        print("Countdown completed!")
 
 # Execute the code
 if __name__ == "__main__":
