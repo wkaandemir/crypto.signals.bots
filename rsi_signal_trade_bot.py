@@ -6,6 +6,7 @@ import config  # Importing a config file (presumably containing API keys)
 import warnings  # Importing warnings to suppress unnecessary warnings
 import symbolsList  # Importing a list of symbols to trade
 import os  # Importing os for system-related operations
+import sys
 
 warnings.filterwarnings("ignore")  # Ignoring warnings
 
@@ -19,18 +20,22 @@ def get_trading_parameters():
     return amount_to_trade, leverage, stop_loss, rsi_threshold, profit_rate
 
 # Function to play a sound alert
-def sound_alert_lower():
-    os.system('afplay /System/Library/Sounds/Ping.aiff')  # Playing a system sound for the alert
+def audible_alert():
+    if sys.platform.startswith('darwin'):  # macOS
+        os.system('afplay /System/Library/Sounds/Ping.aiff')
+    elif sys.platform.startswith('win32'):  # Windows
+        import winsound
+        winsound.Beep(1000, 200)  # Produces a beep sound in Windows
 
 # Function to execute a long position entry
 def long_enter(symbol, amount, exchange):
     order = exchange.create_market_buy_order(symbol, amount)  # Creating a market buy order
-    sound_alert_lower()  # Playing a sound alert
+    audible_alert()  # Playing a sound alert
 
 # Function to execute a long position exit
 def long_exit(symbol, position_amount, exchange):
     order = exchange.create_market_sell_order(symbol, position_amount, {"reduceOnly": True})  # Creating a market sell order with "reduceOnly" option
-    sound_alert_lower()  # Playing a sound alert
+    audible_alert()  # Playing a sound alert
 
 # Function to check the RSI of a symbol
 def rsi_check(symbol, exchange):

@@ -4,7 +4,7 @@ import requests  # Module for sending HTTP requests
 from ta.momentum import RSIIndicator  # Using the RSIIndicator class from the TA library to calculate RSI
 import pandas as pd  # Module for data analysis
 import symbolsList  # Custom module containing symbols for trading
-from smtplib import SMTP
+import sys
 
 # Base URL for the Binance API
 binance_api_url = "https://api.binance.com/api/v3"
@@ -23,9 +23,12 @@ def get_candlestick_data(symbol, interval, limit):
     return data
 
 # Sound an alert when RSI drops below 30
-def sound_alert_lower():
-    print("RSI dropped below 30! Alerting...\n \n ")
-    os.system('afplay /System/Library/Sounds/Ping.aiff')  # Play system sound on macOS
+def audible_alert():
+    if sys.platform.startswith('darwin'):  # macOS
+        os.system('afplay /System/Library/Sounds/Ping.aiff')
+    elif sys.platform.startswith('win32'):  # Windows
+        import winsound
+        winsound.Beep(1000, 200)  # Produces a beep sound in Windows
 
 # Check RSI for a specific symbol and show alert if necessary
 def check_rsi(symbol, interval):
@@ -36,7 +39,7 @@ def check_rsi(symbol, interval):
     rsi = rsi_indicator.rsi().iloc[-1]  # Calculate RSI value
     print(f"{symbol:<15} RSI ({interval}): {rsi:.2f}")  # Print RSI value
     if rsi < rsi_lower_threshold:  # Check if RSI is below the threshold
-        sound_alert_lower()  # Sound alert
+        audible_alert()  # Sound alert
         time.sleep(1)  # Short pause between alerts
 
 # Main loop: Regularly check RSI for all symbols

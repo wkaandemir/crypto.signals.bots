@@ -3,6 +3,7 @@ from binance import Client  # Binance API client
 import config  # Configuration file for API keys
 import pandas as pd  # Data manipulation library
 import os  # Operating system library for system-related functions
+import sys
 
 # Initialize the Binance client with API keys
 client = Client(config.apiKey, config.secretKey)
@@ -11,8 +12,12 @@ client = Client(config.apiKey, config.secretKey)
 symbolList = ["BTCUSDT"]  # You can add more symbols here, separated by commas  "XRPUSDT","BNBUSDT"
 
 # Function to sound an alert when the data retrieval process is complete
-def sound_alert():
-    os.system('afplay /System/Library/Sounds/Ping.aiff')  # Plays a system sound (works on macOS)
+def audible_alert():
+    if sys.platform.startswith('darwin'):  # macOS
+        os.system('afplay /System/Library/Sounds/Ping.aiff')
+    elif sys.platform.startswith('win32'):  # Windows
+        import winsound
+        winsound.Beep(1000, 200)  # Produces a beep sound in Windows
 
 # Function to write historical data to an Excel file
 def historical_Data_Write(symbol, candlesticks, start_date, end_date):
@@ -38,5 +43,5 @@ for symbol in symbolList:
     historical_Data_Write(symbol, candlesticks, start_date, end_date)
 
 # Sound alert to indicate that data retrieval process is complete
-sound_alert()
+audible_alert()
 print("Data retrieval process complete. Check Excel files.")
