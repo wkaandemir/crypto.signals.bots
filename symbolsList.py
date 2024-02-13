@@ -1,12 +1,9 @@
-symbols = ["BTCUSDT",
+symbols = [
 "ETHUSDT",
-"SOLUSDT",
 "BNBUSDT",
 "DYMUSDT",
-"OMUSDT",
 "XRPUSDT",
 "RUNEUSDT",
-"AVAXUSDT",
 "SUIUSDT",
 "ORDIUSDT",
 "ARBUSDT",
@@ -45,4 +42,6 @@ symbols = ["BTCUSDT",
 "APTUSDT",
 "FETUSDT",
 "AAVEUSDT",
+"GMTUSDT"
 ]
+# "GMTUSDT"
